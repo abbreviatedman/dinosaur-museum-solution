@@ -102,7 +102,43 @@ function getRoomByDinosaurNameAlt(dinosaurs, rooms, dinosaurName) {
       "Kit Hopkins Education Wing"
     ]
  */
-function getConnectedRoomNamesById(rooms, id) {}
+function getConnectedRoomNamesById(rooms, id) {
+  const result = [];
+  const room = getRoomById(rooms, id);
+  if (room === null) {
+    return `Room with ID of '${id}' could not be found.`
+  }
+
+  for (let i = 0; i < room.connectsTo.length; i++) {
+    const connectedRoom = getRoomById(rooms, room.connectsTo[i])
+    if (connectedRoom === null) {
+      return `Room with ID of 'incorrect-id' could not be found.`
+    }
+
+    result.push(connectedRoom.name)
+  }
+
+  return result;
+}
+
+/**
+ * getRoomById()
+ * ---------------------
+ * Returns the room object from the given rooms list that matches the given room id, or null if no room is found.
+ * @param {Object[]} rooms - A list of rooms to search.
+ * @param {string} id - The id of the room to search for.
+ * @returns {(Object|null)} The found room, or null if none are found.
+ */
+function getRoomById(rooms, id) {
+  let found = null;
+  for (let i = 0; i < rooms.length; i++) {
+    if (rooms[i].roomId === id) {
+      found = rooms[i];
+    }
+  }
+
+  return found;
+}
 
 module.exports = {
   getRoomByDinosaurName,
