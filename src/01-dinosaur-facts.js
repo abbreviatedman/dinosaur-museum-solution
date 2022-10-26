@@ -66,6 +66,14 @@ function getLongestDinosaur(dinosaurs) {
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
 
+/**
+ * getDinosaurFromId()
+ * ---------------------
+ * Returns a dinosaur from the given dinosaur list with the given id.
+ * @param {Object[]} dinosaurs - An array of dinosaur objects.
+ * @param {string} id - The id of the dinosaur to find.
+ * @returns {(Object|null)} The dinosaur matching the id, or null if none is found.
+ */
 function getDinosaurFromId(dinosaurs, id) {
   for (let i = 0; i < dinosaurs.length; i++) {
     if (dinosaurs[i].dinosaurId === id) {
