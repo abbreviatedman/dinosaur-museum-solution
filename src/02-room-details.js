@@ -25,8 +25,61 @@ const exampleRoomData = require("../data/rooms");
  *  getRoomByDinosaurName(dinosaurs, rooms, "Pterodactyl");
  *  //> "Dinosaur with name 'Pterodactyl' cannot be found."
  */
-function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {}
+function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
+  let dinosaur = null;
+  for (let i = 0; i < dinosaurs.length; i++) {
+    if (dinosaurs[i].name === dinosaurName) {
+      dinosaur = dinosaurs[i]
+    }
+  }
 
+  if (dinosaur === null) {
+    return `Dinosaur with name '${dinosaurName}' cannot be found.`
+  }
+
+  for (let i = 0; i < rooms.length; i++) {
+    if (rooms[i].dinosaurs.includes(dinosaur.dinosaurId)) {
+      return rooms[i].name;
+    }
+  }
+
+  return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`
+}
+
+/**
+ * getDinosaurByName()
+ * ---------------------
+ * Return the dinosaur object with the given name. If the dinosaur cannot be found, return null.
+ * @param {Object[]} dinosaurs - An array of dinosaurs.
+ * @param {string} dinosaurName - The name of the dinosaur.
+ * @returns {(Object|null)} The found dinosaur or null.
+ */
+function getDinosaurByName(dinosaurs, name) {
+  let dinosaur = null;
+  for (let i = 0; i < dinosaurs.length; i++) {
+    if (dinosaurs[i].name === name) {
+      dinosaur = dinosaurs[i];
+    }
+  }
+
+  return dinosaur;
+}
+
+// Alternate version that uses the helper function `getDinosaurByName` above.
+function getRoomByDinosaurNameAlt(dinosaurs, rooms, dinosaurName) {
+  const dinosaur = getDinosaurByName(dinosaurs, dinosaurName)
+  if (dinosaur === null) {
+    return `Dinosaur with name '${dinosaurName}' cannot be found.`
+  }
+
+  for (let i = 0; i < rooms.length; i++) {
+    if (rooms[i].dinosaurs.includes(dinosaur.dinosaurId)) {
+      return rooms[i].name;
+    }
+  }
+
+  return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`
+}
 /**
  * getConnectedRoomNamesById()
  * ---------------------
