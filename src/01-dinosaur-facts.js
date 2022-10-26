@@ -76,8 +76,6 @@ function getDinosaurFromId(dinosaurs, id) {
   return null;
 }
 
-console.log(getDinosaurFromId(exampleDinosaurData, "GKL035EYKN"));
-
 function getDinosaurDescription(dinosaurs, id) {
   const dinosaur = getDinosaurFromId(dinosaurs, id);
   if (dinosaur === null) {
