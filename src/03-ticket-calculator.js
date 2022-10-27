@@ -152,8 +152,30 @@ function purchaseTickets(ticketData, purchases) {
   return receipt + `-------------------------------------------
 TOTAL: $${(total / 100).toFixed(2)}`;
 }
-function getReceiptLine(ticketData, purchase, price) {
-  return `${purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1)} ${ticketData[purchase.ticketType].description}: $${(price / 100).toFixed(2)}${'\n'}`
+
+function getReceiptLine(ticketData, purchase, priceInCents) {
+  const entrant =
+        purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1);
+  const ticketTypeDescription = ticketData[purchase.ticketType].description;
+  const price = (priceInCents / 100).toFixed(2);
+  let line = `${entrant} ${ticketTypeDescription}: $${price}`;
+  const extras = purchase.extras;
+  let ending = '\n';
+  if (extras.length > 0) {
+    line += ' (';
+    ending = ')' + ending;
+  }
+
+  for (let i = 0; i < extras.length; i++) {
+    const extra = ticketData.extras[extras[i]].description
+    if (i === extras.length - 1) {
+      line += extra;
+    } else {
+      line += extra + ', '
+    }
+  }
+
+  return line + ending;
 }
 
 
