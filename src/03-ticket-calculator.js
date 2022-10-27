@@ -58,20 +58,25 @@ function calculateTicketPrice(ticketData, ticketInfo) {
   const ticketType = ticketInfo.ticketType;
   const entrantType = ticketInfo.entrantType;
   const extras = ticketInfo.extras;
-  const firstTicketType = Object.keys(ticketData)[0];
-  const prices = ticketData[firstTicketType].priceInCents;
-  const validTicketTypes = Object.keys(ticketData);
-  const validEntrantTypes = Object.keys(prices);
-  if (validTicketTypes.includes(ticketType) === false) {
+  if (ticketData[ticketType] === undefined) {
     return `Ticket type '${ticketType}' cannot be found.`;
   }
 
-  if (validEntrantTypes.includes(entrantType) === false) {
+  const priceInCents = ticketData[ticketType].priceInCents[entrantType];
+  if (priceInCents === undefined) {
     return `Entrant type '${entrantType}' cannot be found.`;
   }
 
   let sum = 0;
-  sum += ticketData[ticketType].priceInCents[entrantType];
+  sum += priceInCents;
+  for (let i = 0; i < extras.length; i++) {
+    const extra = extras[i];
+    if (ticketData.extras[extra] === undefined) {
+      return `Extra type '${extra}' cannot be found.`;
+    }
+
+    sum += ticketData.extras[extra].priceInCents[entrantType];
+  }
 
   return sum;
 }
