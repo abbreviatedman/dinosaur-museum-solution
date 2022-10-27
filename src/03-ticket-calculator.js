@@ -137,6 +137,73 @@ function calculateTicketPrice(ticketData, ticketInfo) {
 function purchaseTickets(ticketData, purchases) {
   let total = 0;
   let receipt =
+      "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n";
+  for (let i = 0; i < purchases.length; i++) {
+    const purchase = purchases[i];
+    const priceInCents = calculateTicketPrice(ticketData, purchase);
+    if (typeof priceInCents === "string") {
+      return priceInCents;
+    }
+
+    total += priceInCents;
+
+    const entrant =
+          purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1);
+    const ticketTypeDescription = ticketData[purchase.ticketType].description;
+    const price = (priceInCents / 100).toFixed(2);
+    let line = `${entrant} ${ticketTypeDescription}: $${price}`;
+    const extras = purchase.extras;
+    let ending = "\n";
+    if (extras.length > 0) {
+      line += " (";
+      ending = ")" + ending;
+    }
+
+    for (let i = 0; i < extras.length; i++) {
+      const extra = ticketData.extras[extras[i]].description;
+      if (i === extras.length - 1) {
+        line += extra;
+      } else {
+        line += extra + ", ";
+      }
+    }
+
+    receipt += line + ending;
+  }
+
+  return receipt + `-------------------------------------------
+TOTAL: $${(total / 100).toFixed(2)}`;
+}
+
+function getReceiptLine(ticketData, purchase, priceInCents) {
+  const entrant =
+    purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1);
+  const ticketTypeDescription = ticketData[purchase.ticketType].description;
+  const price = (priceInCents / 100).toFixed(2);
+  let line = `${entrant} ${ticketTypeDescription}: $${price}`;
+  const extras = purchase.extras;
+  let ending = "\n";
+  if (extras.length > 0) {
+    line += " (";
+    ending = ")" + ending;
+  }
+
+  for (let i = 0; i < extras.length; i++) {
+    const extra = ticketData.extras[extras[i]].description;
+    if (i === extras.length - 1) {
+      line += extra;
+    } else {
+      line += extra + ", ";
+    }
+  }
+
+  return line + ending;
+}
+
+// Alternate version that uses the helper function `getReceiptLine` above.
+function purchaseTicketsAlt(ticketData, purchases) {
+  let total = 0;
+  let receipt =
     "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n";
   for (let i = 0; i < purchases.length; i++) {
     const purchase = purchases[i];
@@ -152,32 +219,6 @@ function purchaseTickets(ticketData, purchases) {
   return receipt + `-------------------------------------------
 TOTAL: $${(total / 100).toFixed(2)}`;
 }
-
-function getReceiptLine(ticketData, purchase, priceInCents) {
-  const entrant =
-        purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1);
-  const ticketTypeDescription = ticketData[purchase.ticketType].description;
-  const price = (priceInCents / 100).toFixed(2);
-  let line = `${entrant} ${ticketTypeDescription}: $${price}`;
-  const extras = purchase.extras;
-  let ending = '\n';
-  if (extras.length > 0) {
-    line += ' (';
-    ending = ')' + ending;
-  }
-
-  for (let i = 0; i < extras.length; i++) {
-    const extra = ticketData.extras[extras[i]].description
-    if (i === extras.length - 1) {
-      line += extra;
-    } else {
-      line += extra + ', '
-    }
-  }
-
-  return line + ending;
-}
-
 
 // Do not change anything below this line.
 module.exports = {
