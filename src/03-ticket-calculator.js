@@ -175,6 +175,20 @@ function purchaseTickets(ticketData, purchases) {
 TOTAL: $${(total / 100).toFixed(2)}`;
 }
 
+/**
+ * getReceiptLine()
+ * ---------------------
+ * Returns one line of the receipt, based off of one purchase.
+ *
+ * @param {Object} ticketData - An object containing data about prices to enter the museum.
+ * @param {Object} purchase - An object representing a single ticket being purchased.
+ * @param {number} priceInCents - The price in cents of the current ticket.
+ * @param {string} purchase.ticketType - Represents the type of ticket. Could be any string except the value "extras".
+ * @param {string} purchase.entrantType - Represents the type of entrant. Prices change depending on the entrant.
+ * @param {string[]} purchase.extras - An array of strings where each string represent a different "extra" that can be added to the ticket.
+ *
+ * @returns {string} One line of the receipt.
+ */
 function getReceiptLine(ticketData, purchase, priceInCents) {
   const entrant =
     purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1);
