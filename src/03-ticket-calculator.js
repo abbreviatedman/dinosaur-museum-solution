@@ -134,7 +134,28 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+function purchaseTickets(ticketData, purchases) {
+  let total = 0;
+  let receipt =
+    "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n";
+  for (let i = 0; i < purchases.length; i++) {
+    const purchase = purchases[i];
+    const price = calculateTicketPrice(ticketData, purchase);
+    if (typeof price === "string") {
+      return price;
+    }
+
+    total += price;
+    receipt += getReceiptLine(ticketData, purchase, price);
+  }
+
+  return receipt + `-------------------------------------------
+TOTAL: $${(total / 100).toFixed(2)}`;
+}
+function getReceiptLine(ticketData, purchase, price) {
+  return `${purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1)} ${ticketData[purchase.ticketType].description}: $${(price / 100).toFixed(2)}${'\n'}`
+}
+
 
 // Do not change anything below this line.
 module.exports = {
